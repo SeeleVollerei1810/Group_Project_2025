@@ -24,25 +24,26 @@ The toolbox computes a comprehensive set of **12 ETCCDI climate indices** to ass
 | :--- | :--- | :--- | :--- |
 | `START_YEAR` | `io.py` | Start year for the analysis window | `1961` |
 | `END_YEAR` | `io.py` | End year for the analysis window | `2023` |
-| `lat_range` / `lon_range` | `main.ipynb`| Spatial boundaries for the study area | `(8, 24)` / `(102, 110)` |
+| `lat_range` | `main.ipynb`| Latitude bounds (Min, Max) for the study area | `(8, 24)` |
+| `lon_range` | `main.ipynb`| Longitude bounds (Min, Max) for the study area | `(102, 110)` |
 ### 2. Temperature Indices (Heat Stress)
-| Parameter | Category | Description | Threshold / Logic |
-| :--- | :--- | :--- | :--- |
-| **`TXx`** | Extreme Heat | Annual maximum of daily maximum temperature | Absolute Max (°C) |
-| **`TNn`** | Extreme Cold | Annual minimum of daily minimum temperature | Absolute Min (°C) |
-| **`SU25`** | Heatwave | Number of **Summer Days** per year | Tmax > **25°C** |
-| **`TR20`** | Heatwave | Number of **Tropical Nights** per year | Tmin > **20°C** |
-| **`DTR`** | Variability | Diurnal Temperature Range (Daily Tmax - Tmin) | Daily Difference |
-| **`Tmean`** | General | Annual Mean Temperature | Mean (°C) |
+| Parameter | Unit | Category | Description | Threshold / Logic |
+| :--- | :--- | :--- | :--- | :--- |
+| **`TXx`** | **°C** | Extreme Heat | Annual maximum of daily maximum temperature | Absolute Max (°C) |
+| **`TNn`** | **°C** | Extreme Cold | Annual minimum of daily minimum temperature | Absolute Min (°C) |
+| **`SU25`** | **Days** | Heatwave | Number of **Summer Days** per year | Tmax > **25°C** |
+| **`TR20`** | **Days** | Heatwave | Number of **Tropical Nights** per year | Tmin > **20°C** |
+| **`DTR`** | **°C** | Variability | Diurnal Temperature Range (Daily Tmax - Tmin) | Daily Difference |
+| **`Tmean`** | **°C** | General | Annual Mean Temperature | Mean (°C) |
 ### 3. Precipitation Indices (Flooding Risk)
-| Parameter | Category | Description | Threshold / Logic |
-| :--- | :--- | :--- | :--- |
-| **`Rx1day`** | Intensity | Maximum 1-day precipitation amount | Absolute Max (mm) |
-| **`Rx5day`** | Intensity | Maximum 5-day consecutive precipitation | Absolute Max (mm) |
-| **`SDII`** | Intensity | Simple Daily Intensity Index (Rain rate on wet days) | PRCPTOT / Wet Days |
-| **`R95p`** | Extreme Rain | Very wet days precipitation total | > **95th percentile** |
-| **`R99p`** | Extreme Rain | Extremely wet days precipitation total | > **99th percentile** |
-| **`PRCPTOT`** | Availability | Annual total precipitation from wet days | Daily Rain > **1mm** |
+| Parameter | Unit | Category | Description | Threshold / Logic |
+| :--- | :--- | :--- | :--- | :--- |
+| **`Rx1day`** | **mm** | Intensity | Maximum 1-day precipitation amount | Absolute Max (mm) |
+| **`Rx5day`** | **mm** | Intensity | Maximum 5-day consecutive precipitation | Absolute Max (mm) |
+| **`SDII`** | **mm/day** | Intensity | Simple Daily Intensity Index (Rain rate on wet days) | PRCPTOT / Wet Days |
+| **`R95p`** | **mm** | Extreme Rain | Very wet days precipitation total | > **95th percentile** |
+| **`R99p`** | **mm** | Extreme Rain | Extremely wet days precipitation total | > **99th percentile** |
+| **`PRCPTOT`** | **mm** | Availability | Annual total precipitation from wet days | Daily Rain > **1mm** |
 
 ## 👥 Author
 **University of Science and Technology of Hanoi (USTH)** *Department of Space and Earth Sciences*
