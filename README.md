@@ -17,19 +17,32 @@ The project is implemented using the **Python** ecosystem with the following key
 * `matplotlib`: For static plotting and visualization.
 * `Dask`: For parallel computing and handling large datasets.
 
-## ⚙️ Configurable Parameters
-Below are the key parameters available in the toolbox for customizing the climate analysis and simulation:
-| Parameter | Category | Description |
-| :--- | :--- | :--- |
-| `input_dataset` | I/O Data | Path to the input climate data files (NetCDF, WRF, or Satellite data) |
-| `output_dir` | I/O Data | Directory where generated maps, plots, and statistical summaries will be saved |
-| `start_year` / `end_year` | Time Settings | The time range for long-term trend analysis (e.g., 1980-2020) |
-| `study_area_bounds` | Spatial | Coordinate boundaries (min_lat, max_lat, min_lon, max_lon) to crop the study area |
-| `precipitation_threshold` | Climate Index | Threshold value (mm) to define extreme rainfall days (used for **R95p**, **PRCPTOT**)  |
-| `temperature_percentile` | Climate Index | Percentile value (e.g., 90th, 95th) for calculating extreme temperature events (**TXx**, **TNn**)  |
-| `heat_stress_metric` | Simulation | Option to select the heat stress indicator to compute: `'Tw'` (Wet-Bulb) or `'WBGT'`  |
-| `baseline_period` | Analysis | Reference period used to calculate climate anomalies and deviations |
-| `plot_resolution` | Visualization | Resolution setting for generating output maps and heatmaps |
+## ⚙️ Configurable Parameters & Climate Indices
+The toolbox computes a comprehensive set of **12 ETCCDI climate indices** to assess urban resilience. Below are the definitions and configuration thresholds currently implemented in the core modules.
+### 1. General Configuration
+| Parameter | Location | Description | Default Value |
+| :--- | :--- | :--- | :--- |
+| `START_YEAR` | `io.py` | Start year for the analysis window | `1961` |
+| `END_YEAR` | `io.py` | End year for the analysis window | `2023` |
+| `lat_range` / `lon_range` | `main.ipynb`| Spatial boundaries for the study area | `(8, 24)` / `(102, 110)` |
+### 2. Temperature Indices (Heat Stress)
+| Parameter | Category | Description | Threshold / Logic |
+| :--- | :--- | :--- | :--- |
+| **`TXx`** | Extreme Heat | Annual maximum of daily maximum temperature | Absolute Max (°C) |
+| **`TNn`** | Extreme Cold | Annual minimum of daily minimum temperature | Absolute Min (°C) |
+| **`SU25`** | Heatwave | Number of **Summer Days** per year | Tmax > **25°C** |
+| **`TR20`** | Heatwave | Number of **Tropical Nights** per year | Tmin > **20°C** |
+| **`DTR`** | Variability | Diurnal Temperature Range (Daily Tmax - Tmin) | Daily Difference |
+| **`Tmean`** | General | Annual Mean Temperature | Mean (°C) |
+### 3. Precipitation Indices (Flooding Risk)
+| Parameter | Category | Description | Threshold / Logic |
+| :--- | :--- | :--- | :--- |
+| **`Rx1day`** | Intensity | Maximum 1-day precipitation amount | Absolute Max (mm) |
+| **`Rx5day`** | Intensity | Maximum 5-day consecutive precipitation | Absolute Max (mm) |
+| **`SDII`** | Intensity | Simple Daily Intensity Index (Rain rate on wet days) | PRCPTOT / Wet Days |
+| **`R95p`** | Extreme Rain | Very wet days precipitation total | > **95th percentile** |
+| **`R99p`** | Extreme Rain | Extremely wet days precipitation total | > **99th percentile** |
+| **`PRCPTOT`** | Availability | Annual total precipitation from wet days | Daily Rain > **1mm** |
 
 ## 👥 Author
 **University of Science and Technology of Hanoi (USTH)** *Department of Space and Earth Sciences*
