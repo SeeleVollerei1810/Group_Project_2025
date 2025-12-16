@@ -17,6 +17,20 @@ The project is implemented using the **Python** ecosystem with the following key
 * `matplotlib`: For static plotting and visualization.
 * `Dask`: For parallel computing and handling large datasets.
 
+## ⚙️ Configurable Parameters
+Below are the key parameters available in the toolbox for customizing the climate analysis and simulation:
+| Parameter | Category | Description |
+| :--- | :--- | :--- |
+| `input_dataset` | I/O Data | Path to the input climate data files (NetCDF, WRF, or Satellite data) |
+| `output_dir` | I/O Data | Directory where generated maps, plots, and statistical summaries will be saved |
+| `start_year` / `end_year` | Time Settings | The time range for long-term trend analysis (e.g., 1980-2020) |
+| `study_area_bounds` | Spatial | Coordinate boundaries (min_lat, max_lat, min_lon, max_lon) to crop the study area |
+| `precipitation_threshold` | Climate Index | Threshold value (mm) to define extreme rainfall days (used for **R95p**, **PRCPTOT**)  |
+| `temperature_percentile` | Climate Index | Percentile value (e.g., 90th, 95th) for calculating extreme temperature events (**TXx**, **TNn**)  |
+| `heat_stress_metric` | Simulation | Option to select the heat stress indicator to compute: `'Tw'` (Wet-Bulb) or `'WBGT'`  |
+| `baseline_period` | Analysis | Reference period used to calculate climate anomalies and deviations |
+| `plot_resolution` | Visualization | Resolution setting for generating output maps and heatmaps |
+
 ## 👥 Author
 **University of Science and Technology of Hanoi (USTH)** *Department of Space and Earth Sciences*
 | Name | Student ID |
