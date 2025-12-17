@@ -88,11 +88,11 @@ def tinh_chi_so_khi_hau(ds: xr.Dataset) -> xr.Dataset:
             da.attrs.update(INDEX_INFO[name])
 
     if 'time' in ds_annual_indices.coords:
-        print("Chiều 'time' đã tồn tại, không cần đổi tên.")
+        print("The 'time' dimension already exists, no need to change its name.")
     else:
         if 'year' in ds_annual_indices.dims:
             ds_annual_indices = ds_annual_indices.rename({'year': 'time'})
-            print("Đã đổi tên chiều 'year' thành 'time'.")
+            print("The dimension 'year' has been renamed to 'time'.")
 
     print("ETCCDI indices calculation completed.")
 
