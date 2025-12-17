@@ -25,7 +25,6 @@ def main():
 
     # --- BƯỚC 1: TẢI DỮ LIỆU ---
     print(f"Tải dữ liệu từ: {INPUT_DATA}")
-    # Ví dụ: Tải tệp NetCDF
     import xarray as xr
     ds = xr.open_dataset(INPUT_DATA)
 
