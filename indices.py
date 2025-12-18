@@ -33,20 +33,15 @@ INDEX_INFO: Dict[str, Dict[str, str]] = {
     "R50mm": {"long_name": "Number of days with precipitation ≥ 50mm", "units": "days"},
 }
 
-def SU25(tasmax: xr.DataArray) -> xr.DataArray:
-    return (tasmax > 25).groupby("time.year").sum(dim="time", skipna=True)
-
+# Các hàm tính chỉ số khí hậu
 def TXx(tasmax: xr.DataArray) -> xr.DataArray:
     return tasmax.where(~np.isnan(tasmax)).groupby('time.year').max(dim='time', skipna=True)
 
+def TXn(tasmax: xr.DataArray) -> xr.DataArray:
+    return tasmax.where(~np.isnan(tasmax)).groupby('time.year').min(dim='time', skipna=True)
+
 def TNx(tasmin: xr.DataArray) -> xr.DataArray:
     return tasmin.where(~np.isnan(tasmin)).groupby('time.year').max(dim='time', skipna=True)
-
-def TR20(tasmin: xr.DataArray) -> xr.DataArray:
-    return (tasmin > 20).groupby("time.year").sum(dim="time", skipna=True)
-
-def WSDI(tasmax: xr.DataArray) -> xr.DataArray:
-    return tasmax.where(tasmax > 30).groupby("time.year").sum(dim="time", skipna=True)
 
 def TNn(tasmin: xr.DataArray) -> xr.DataArray:
     return tasmin.where(~np.isnan(tasmin)).groupby('time.year').min(dim='time', skipna=True)
@@ -55,11 +50,14 @@ def DTR(tasmax: xr.DataArray, tasmin: xr.DataArray) -> xr.DataArray:
     dtr_daily = tasmax - tasmin
     return dtr_daily.where(~np.isnan(dtr_daily)).groupby('time.year').mean(dim='time', skipna=True)
 
-def CSDI(tasmin: xr.DataArray) -> xr.DataArray:
-    return tasmin.where(tasmin < 0).groupby("time.year").sum(dim="time", skipna=True)
+def SU25(tasmax: xr.DataArray) -> xr.DataArray:
+    return (tasmax > 25).groupby("time.year").sum(dim="time", skipna=True)
 
-def FDD(tasmin: xr.DataArray) -> xr.DataArray:
-    return (tasmin <= 0).groupby("time.year").sum(dim="time", skipna=True)
+def TR20(tasmin: xr.DataArray) -> xr.DataArray:
+    return (tasmin > 20).groupby("time.year").sum(dim="time", skipna=True)
+
+def Tmean(tas: xr.DataArray) -> xr.DataArray:
+    return tas.where(~np.isnan(tas)).groupby('time.year').mean(dim='time', skipna=True)
 
 def Rx1day(pr: xr.DataArray) -> xr.DataArray:
     return pr.where(~np.isnan(pr)).resample(time='YE').max(dim='time', skipna=True)
@@ -78,12 +76,6 @@ def PRCPTOT(pr: xr.DataArray) -> xr.DataArray:
     pr_rain = pr.where(pr > 1.0)
     return pr_rain.groupby('time.year').sum(dim='time', skipna=True)
 
-def R10mm(pr: xr.DataArray) -> xr.DataArray:
-    return (pr >= 10).groupby("time.year").sum(dim="time", skipna=True)
-
-def R20mm(pr: xr.DataArray) -> xr.DataArray:
-    return (pr >= 20).groupby("time.year").sum(dim="time", skipna=True)
-
 def R95p(pr: xr.DataArray) -> xr.DataArray:
     pr_valid = pr.where(~np.isnan(pr))
     thr = pr_valid.quantile(0.95, dim='time', skipna=True)
@@ -96,11 +88,24 @@ def R99p(pr: xr.DataArray) -> xr.DataArray:
     pr99 = pr_valid.where(pr_valid > _clean_coords(thr))
     return pr99.groupby('time.year').sum(dim='time', skipna=True)
 
+# Thêm các hàm tính các chỉ số khí hậu còn lại
 def CWD(pr: xr.DataArray) -> xr.DataArray:
     return pr.where(pr > 1.0).rolling(time=5, min_periods=1).count().resample(time='YE').max(dim='time', skipna=True)
 
 def CDD(pr: xr.DataArray) -> xr.DataArray:
     return pr.where(pr == 0).rolling(time=5, min_periods=1).count().resample(time='YE').max(dim='time', skipna=True)
+
+def R10mm(pr: xr.DataArray) -> xr.DataArray:
+    return (pr >= 10).groupby("time.year").sum(dim="time", skipna=True)
+
+def R20mm(pr: xr.DataArray) -> xr.DataArray:
+    return (pr >= 20).groupby("time.year").sum(dim="time", skipna=True)
+
+def WSDI(tasmax: xr.DataArray) -> xr.DataArray:
+    return tasmax.where(tasmax > 30).groupby("time.year").sum(dim="time", skipna=True)
+
+def CSDI(tasmin: xr.DataArray) -> xr.DataArray:
+    return tasmin.where(tasmin < 0).groupby("time.year").sum(dim="time", skipna=True)
 
 def R1mm(pr: xr.DataArray) -> xr.DataArray:
     return (pr >= 1).groupby("time.year").sum(dim="time", skipna=True)
@@ -108,10 +113,13 @@ def R1mm(pr: xr.DataArray) -> xr.DataArray:
 def RRR(pr: xr.DataArray) -> xr.DataArray:
     return pr.where(pr > 1).rolling(time=7).sum().resample(time="YE").max(dim="time", skipna=True)
 
+def FDD(tasmin: xr.DataArray) -> xr.DataArray:
+    return (tasmin <= 0).groupby("time.year").sum(dim="time", skipna=True)
+
 def R50mm(pr: xr.DataArray) -> xr.DataArray:
     return (pr >= 50).groupby("time.year").sum(dim="time", skipna=True)
 
-#total
+# Hàm tổng hợp tính tất cả các chỉ số
 def climate_index(ds: xr.Dataset) -> xr.Dataset:
     required_vars = ['tasmax', 'tasmin', 'tas', 'pr']
     if not all(v in ds.data_vars for v in required_vars):
@@ -121,6 +129,7 @@ def climate_index(ds: xr.Dataset) -> xr.Dataset:
     tasmax, tasmin, tas, pr = ds['tasmax'], ds['tasmin'], ds['tas'], ds['pr']
     results: Dict[str, Union[xr.DataArray, xr.Dataset]] = {}
 
+    # Tính tất cả các chỉ số khí hậu
     results["TXx"] = _clean_coords(TXx(tasmax))
     results["TXn"] = _clean_coords(TXn(tasmax))
     results["TNx"] = _clean_coords(TNx(tasmin))
@@ -146,13 +155,16 @@ def climate_index(ds: xr.Dataset) -> xr.Dataset:
     results["FDD"] = _clean_coords(FDD(tasmin))
     results["R50mm"] = _clean_coords(R50mm(pr))
 
+    # Tạo Dataset kết quả
     ds_annual_indices = xr.Dataset(results)
 
+    # Cập nhật thêm thông tin từ INDEX_INFO
     for name, da in ds_annual_indices.data_vars.items():
         if name in INDEX_INFO:
             da.name = name
             da.attrs.update(INDEX_INFO[name])
 
+    # Đổi tên 'year' thành 'time' nếu cần
     if 'time' not in ds_annual_indices.coords:
         if 'year' in ds_annual_indices.dims:
             ds_annual_indices = ds_annual_indices.rename({'year': 'time'})
