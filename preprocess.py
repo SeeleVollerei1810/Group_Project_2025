@@ -42,7 +42,6 @@ def handle_nan(ds: xr.Dataset, method: Literal['keep'] = 'keep') -> xr.Dataset:
                 mask_static_zero = (arr.mean(dim='time', skipna=True) == 0)
                 arr = arr.where(~mask_static_zero)
             ds[var] = arr
-        print("NaN kept and static zero points removed.")
     return ds
 
 def combine_preprocess(ds: xr.Dataset, lat_range: Tuple[float, float], lon_range: Tuple[float, float], nan_method: Literal['keep'] = 'keep') -> xr.Dataset:
@@ -50,4 +49,5 @@ def combine_preprocess(ds: xr.Dataset, lat_range: Tuple[float, float], lon_range
     ds = spatial_subset(ds, lat_range, lon_range)
     ds = time_subset(ds)
     ds = handle_nan(ds, nan_method)
+    print("Preprocessing completed!")
     return ds
