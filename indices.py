@@ -64,12 +64,11 @@ def climate_index(ds: xr.Dataset) -> xr.Dataset:
     required_vars = ['tasmax', 'tasmin', 'tas', 'pr']
     if not all(v in ds.data_vars for v in required_vars):
         missing = [v for v in required_vars if v not in ds.data_vars]
-        raise ValueError(f"🛑 Thiếu các biến bắt buộc trong Dataset: {missing}")
+        raise ValueError(f"Required variables are missing from the Dataset: {missing}")
 
     tasmax, tasmin, tas, pr = ds['tasmax'], ds['tasmin'], ds['tas'], ds['pr']
     results: Dict[str, Union[xr.DataArray, xr.Dataset]] = {}
-
-    # Tính toán các chỉ số
+    
     results["TXx"] = _clean_coords(TXx(tasmax))
     results["TNn"] = _clean_coords(TNn(tasmin))
     results["SU25"] = _clean_coords(SU25(tasmax))
@@ -82,25 +81,21 @@ def climate_index(ds: xr.Dataset) -> xr.Dataset:
     results["PRCPTOT"] = _clean_coords(PRCPTOT(pr))
     results["R95p"] = _clean_coords(R95p(pr))
     results["R99p"] = _clean_coords(R99p(pr))
-
+    
     ds_annual_indices = xr.Dataset(results)
 
-    # Gán thuộc tính
     for name, da in ds_annual_indices.data_vars.items():
         if name in INDEX_INFO:
             da.name = name
             da.attrs.update(INDEX_INFO[name])
 
-    # Kiểm tra và xử lý lỗi xung đột 'time'
+
     if 'time' in ds_annual_indices.coords:
-        print("Chiều 'time' đã tồn tại, không cần đổi tên.")
     else:
-        # Đổi tên trục 'year' thành 'time' nếu 'time' chưa có trong dataset
         if 'year' in ds_annual_indices.dims:
             ds_annual_indices = ds_annual_indices.rename({'year': 'time'})
-            print("Đã đổi tên chiều 'year' thành 'time'.")
 
-    print("✅ ETCCDI indices calculation completed.")
+    print("ETCCDI indices calculation completed.")
 
     return ds_annual_indices
 
