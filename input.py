@@ -3,20 +3,6 @@ from pathlib import Path
 import os
 import glob
 
-def load_all_datasets_dynamically():
-    base_path = get_drive_data_path()  
-    nc_files = glob.glob(os.path.join(base_path, '*.nc'))
-
-    datasets = {}
-    for file_path in nc_files:
-
-            name = Path(file_path).stem.split('_')[-1]
-            ds = xr.open_dataset(file_path)
-            datasets[name] = ds
-
-    print("\nTotal number of datasets downloaded:", len(datasets))
-    return datasets
-
 def combine_datasets(datasets):
     priority_vars = ['tas', 'tasmax', 'tasmin', 'pr']
     datasets_to_merge = [datasets[name] for name in priority_vars if name in datasets]
