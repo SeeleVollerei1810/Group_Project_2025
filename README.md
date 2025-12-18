@@ -9,24 +9,15 @@ In the context of rapid urbanization and global warming, this toolbox provides a
 The toolbox focuses on the following primary objectives:
 * **Climate Extreme Indicators (ETCCDI):** Computing indices such as `TXx`, `TNn`, `R95p`, and `PRCPTOT` to assess long-term temperature and rainfall trends.
 * **Heat-Stress Metrics:** Calculating human heat exposure metrics like Wet-Bulb Temperature (`Tw`) and Wet-Bulb Globe Temperature (`WBGT`).
-* **Visualization:** Generating maps, plots, and statistical summaries to identify urban hotspots and support data-driven planning.
 
 ## Technology Stack
 The project is implemented using the **Python** ecosystem with the following key libraries:
 * `xarray`, `numpy`, `pandas`: For multi-dimensional data manipulation.
-* `matplotlib`: For static plotting and visualization.
 * `Dask`: For parallel computing and handling large datasets.
 
 ## Configurable Parameters & Climate Indices
 The toolbox computes a comprehensive set of **24 ETCCDI climate indices** covering temperature extremes, heatwaves, heavy rainfall, and drought durations.
-### 1. General Configuration
-| Parameter | Description | Default Value |
-| :--- | :--- | :--- |
-| `START_YEAR` | Start year for the analysis window | `1961` |
-| `END_YEAR` | End year for the analysis window | `2023` |
-| `lat_range` | Latitude bounds (Min, Max) | `(8, 24)` |
-| `lon_range` | Longitude bounds (Min, Max) | `(102, 110)` |
-### 2. Temperature Indices (11 Indices)
+### 1. Temperature Indices (11 Indices)
 | Index | Unit | Description | Threshold / Logic |
 | :--- | :--- | :--- | :--- |
 | **`TXx`** | **°C** | Annual maximum of daily maximum temperature | Absolute Max |
@@ -40,7 +31,7 @@ The toolbox computes a comprehensive set of **24 ETCCDI climate indices** coveri
 | **`FDD`** | **Days** | Frost days (Cold stress) | Tmin ≤ 0°C |
 | **`WSDI`** | **Days** | Warm Spell Duration Index | Heatwave Duration |
 | **`CSDI`** | **Days** | Cold Spell Duration Index | Cold Spell Duration |
-### 3. Precipitation Indices (13 Indices)
+### 2. Precipitation Indices (13 Indices)
 | Index | Unit | Description | Threshold / Logic |
 | :--- | :--- | :--- | :--- |
 | **`Rx1day`** | **mm** | Annual maximum 1-day precipitation | Max 1-day rain |
