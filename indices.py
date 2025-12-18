@@ -89,7 +89,7 @@ def climate_index(ds: xr.Dataset) -> xr.Dataset:
             da.attrs.update(INDEX_INFO[name])
 
     if 'time' in ds_annual_indices.coords:
-
+        pass
     else:
         if 'year' in ds_annual_indices.dims:
             ds_annual_indices = ds_annual_indices.rename({'year': 'time'})
