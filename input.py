@@ -12,8 +12,7 @@ def combine_datasets(datasets):
     return merged
 
 def load_all_data_for_analysis():
-
-    all_datasets = load_all_datasets_dynamically()
+    
     combined_data = combine_datasets(all_datasets)
 
     return combined_data
