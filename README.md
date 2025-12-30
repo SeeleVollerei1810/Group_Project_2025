@@ -5,6 +5,9 @@ This project aims to develop an integrated computational toolbox to explore clim
 
 In the context of rapid urbanization and global warming, this toolbox provides a workflow to process climate data, compute extreme indicators, and visualize risks associated with heat stress and extreme rainfall.
 
+## How to run
+1. Clone the Git
+
 ## Key Features
 The toolbox focuses on the following primary objectives:
 * **Climate Extreme Indicators (ETCCDI):** Computing indices such as `TXx`, `TNn`, `R95p`, and `PRCPTOT` to assess long-term temperature and rainfall trends.
