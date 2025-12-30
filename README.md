@@ -21,7 +21,7 @@ Before running, you must update the file paths and study area parameters to matc
     - Change the default_path to the folder containing your .nc files:
 ```
 def get_drive_data_path() -> str:
-    # CHANGE THIS to your actual data folder path
+    # CHANGE THIS to YOUR actual data folder path
     default_path = '/content/drive/MyDrive/Group Project 2025/data/'
     return default_path
 ```
@@ -29,9 +29,9 @@ def get_drive_data_path() -> str:
     - Open `main.py`, find the `main()` function and update the following coordinates:
 ```
 def main():
-#thamso cauhinh
-    OUTPUT_DIR = '/content/drive/MyDrive/Group Project 2025/results' #link_save
-    LAT_RANGE = (8.0, 24.0) # (dang lam Vietnam)
+    OUTPUT_DIR = '/content/drive/MyDrive/Group Project 2025/results'
+    # Define YOUR study area boundaries
+    LAT_RANGE = (8.0, 24.0)
     LON_RANGE = (102.0, 110.0)
     NAN_METHOD: Literal['keep'] = 'keep'
 ```
