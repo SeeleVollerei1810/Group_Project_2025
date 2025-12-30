@@ -11,6 +11,7 @@ Follow these steps to set up the environment, configure your data, and run the s
 First, clone the repository to your local machine or Google Colab environment:
 - git clone https://github.com/SeeleVollerei1810/Group_Project_2025.git
 - cd Group_Project_2025
+
 Ensure you have the required libraries installed:
 - pip install numpy pandas xarray netCDF4 matplotlib
 ### 2. Configuration
