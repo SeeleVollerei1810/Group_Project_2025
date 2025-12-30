@@ -9,7 +9,7 @@ In the context of rapid urbanization and global warming, this toolbox provides a
 Follow these steps to set up the environment, configure your data, and run the simulation.
 ### 1. Installation
 First, clone the repository to your local machine or Google Colab environment:
-- git clone (https://github.com/SeeleVollerei1810/Group_Project_2025.git)
+- git clone https://github.com/SeeleVollerei1810/Group_Project_2025.git
 - cd Group_Project_2025
 
 ## Key Features
