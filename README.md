@@ -52,14 +52,7 @@ file_path = '/content/drive/MyDrive/Group Project 2025/results/calculated_indice
 ```
 # Change 'WBGT' or 'TNn' to your desired variable name found in the file
 tnn_data = fh.variables['TNn'][:]
-heat_data = fh.variables['WBGT'][:]
-```
-- **Step 3: Adjust Color Scale**
-    - Modify `vmin` and `vmax` in the plotting function to match the physical range of your data.
-```
-# For Cold Indices (e.g., TNn): vmin=2, vmax=20
-# For Heat Stress (e.g., WBGT): vmin=20, vmax=35
-plot = ax1.pcolormesh(lon, lat, tnn_mean, cmap='RdYlBu_r', shading='auto', vmin=2, vmax=20)
+tw_data = ds['Tw']
 ```
 
 ## Key Features
