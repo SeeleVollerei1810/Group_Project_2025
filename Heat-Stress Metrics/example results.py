@@ -39,7 +39,7 @@ def plot_existing_wbgt_analysis(file_path: str):
 
     fig = plt.figure(figsize=(15, 8))
 
-    # --- SUBPLOT 1: HEAT RISK MAP (White background for ocean) ---
+    # --- SUBPLOT 1: HEAT RISK MAP ---
     ax1 = fig.add_subplot(1, 2, 1)
     risk_map_data = risk_level.mean(dim='time')
 
@@ -64,7 +64,7 @@ def plot_existing_wbgt_analysis(file_path: str):
     ax1.set_xlim(102, 109.5)
     ax1.set_ylim(8, 23.5)
 
-    # --- SUBPLOT 2: Tw FREQUENCY DISTRIBUTION (HISTOGRAM) ---
+    # --- SUBPLOT 2: WBGT FREQUENCY DISTRIBUTION (HISTOGRAM) ---
     ax2 = fig.add_subplot(1, 2, 2)
 
     unique_years = np.unique(years)
