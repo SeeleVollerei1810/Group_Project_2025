@@ -30,6 +30,7 @@ fig = plt.figure(figsize=(16, 10))
 # --- SUBPLOT 1: SPATIAL DISTRIBUTION MAP ---
 ax1 = fig.add_subplot(1, 2, 1)
 
+# Using 'RdYlBu_r' as requested. For TNn, we set vmin/vmax to 2-20°C
 plot = ax1.pcolormesh(lon, lat, tnn_mean, cmap='RdYlBu_r', shading='auto', vmin=2, vmax=20)
 
 cbar = fig.colorbar(plot, ax=ax1, label='TNn Temperature (°C)', extend='both', shrink=0.7)
@@ -57,7 +58,7 @@ for year, color in zip(years_to_plot, colors):
         ax2.hist(clean_data, bins=40, alpha=0.4, label=f'Year {year}', color=color, density=True)
         ax2.axvline(np.mean(clean_data), color=color, linestyle='--', linewidth=1.5)
 
-ax2.set_title('(b) TNn Frequency Distribution Comparison', fontsize=14, fontweight='bold')
+ax2.set_title('(b) TNn Frequency Distribution over Selected Years', fontsize=14, fontweight='bold')
 ax2.set_xlabel('Temperature (°C)')
 ax2.set_ylabel('Probability Density (PDF)')
 ax2.legend()
