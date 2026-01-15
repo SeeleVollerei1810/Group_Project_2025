@@ -57,7 +57,7 @@ def plot_existing_wbgt_analysis(file_path: str):
     cbar.ax.set_yticklabels(['Low (<26)', 'Moderate (26-28)', 'High (28-32)', 'Extreme (>32)'])
     cbar.set_label('Heat Risk Classification')
 
-    ax1.set_title('(a) Spatial Distribution of WBGT Risk Levels', fontsize=14)
+    ax1.set_title('(a) Spatial Distribution of WBGT Risk Levels', fontsize=14, fontweight='bold')
     ax1.set_xlabel('Longitude (°E)')
     ax1.set_ylabel('Latitude (°N)')
     ax1.set_aspect('equal')
@@ -82,7 +82,7 @@ def plot_existing_wbgt_analysis(file_path: str):
     ax2.axvline(26, color='gray', linestyle=':', label='Risk Threshold (26°C)')
     ax2.axvline(32, color='darkred', linestyle='-', label='Extreme Threshold (32°C)')
 
-    ax2.set_title('(b) WBGT Frequency Distribution over Selected Years', fontsize=14)
+    ax2.set_title('(b) WBGT Frequency Distribution over Selected Years', fontsize=14, fontweight='bold')
     ax2.set_xlabel('WBGT Temperature (°C)')
     ax2.set_ylabel('Probability Density (PDF)')
     ax2.legend()
