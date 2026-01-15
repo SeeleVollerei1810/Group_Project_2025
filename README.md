@@ -35,6 +35,8 @@ def main():
     LON_RANGE = (102.0, 110.0)
     NAN_METHOD: Literal['keep'] = 'keep'
 ```
+### 3. Visualization
+Use the provided ```example_results.py``` script to generate spatial maps and frequency distributions for any calculated index.
 
 ## Key Features
 The toolbox focuses on the following primary objectives:
