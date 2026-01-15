@@ -57,7 +57,7 @@ def plot_existing_wbgt_analysis(file_path: str):
     cbar.ax.set_yticklabels(['Low (<26)', 'Moderate (26-28)', 'High (28-32)', 'Extreme (>32)'])
     cbar.set_label('Heat Risk Classification')
 
-    ax1.set_title('(a) Spatial Distribution of WBGT Risk Levels', fontsize=14, fontweight='bold')
+    ax1.set_title('(a) Spatial Distribution of WBGT Risk Levels (1961-2023)', fontsize=14, fontweight='bold')
     ax1.set_xlabel('Longitude (°E)')
     ax1.set_ylabel('Latitude (°N)')
     ax1.set_aspect('equal')
