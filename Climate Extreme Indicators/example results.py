@@ -66,7 +66,4 @@ ax2.grid(axis='y', alpha=0.3)
 plt.tight_layout()
 plt.show()
 
-print(f"Overall Minimum TNn: {np.nanmin(tnn_mean):.2f}°C")
-print(f"Overall Maximum TNn: {np.nanmax(tnn_mean):.2f}°C")
-
 fh.close()
