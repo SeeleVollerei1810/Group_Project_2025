@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 
 file_path = '/content/drive/MyDrive/Group Project 2025/results/calculated_heatstress.nc'
-fh = Dataset(file_path, 'r')
+plot_existing_tw_analysis(file_path)
 
 print(fh.file_format)
 print(fh.dimensions.keys())
@@ -15,59 +15,79 @@ print(fh.Conventions)
 for attr in fh.ncattrs():
     print(attr, '=', getattr(fh,attr))
 
-lat = fh.variables['lat'][:]
-lon = fh.variables['lon'][:]
-time_var = fh.variables['time']
-heat_data = fh.variables['WBGT'][:]
+warnings.filterwarnings("ignore", message="All-NaN slice encountered")
 
-d_times = nc.num2date(time_var[:], time_var.units)
-years = np.array([d.year for d in d_times])
+def plot_existing_tw_analysis(file_path: str):
+    ds = xr.open_dataset(file_path)
 
-heat_mean = np.nanmean(heat_data, axis=0)
+    if 'Tw' not in ds.variables:
+        print("Error: 'Tw' variable not found in the file. Please check the variable name.")
+        return
 
-fig = plt.figure(figsize=(16, 10))
+    lon = ds.lon.values
+    lat = ds.lat.values
+    years = ds.time.dt.year.values
 
-# --- SUBPLOT 1: SPATIAL DISTRIBUTION MAP ---
-ax1 = fig.add_subplot(1, 2, 1)
+    tw_data = ds['Tw']
+    risk_level = xr.where(tw_data < 18, 1,
+                 xr.where(tw_data < 21, 2,
+                 xr.where(tw_data < 24, 3, 4)))
 
-# For WBGT, we set vmin/vmax to 20-35°C
-plot = ax1.pcolormesh(lon, lat, heat_mean, cmap='RdYlBu_r', shading='auto', vmin=20, vmax=35)
+    risk_level = risk_level.where(~np.isnan(tw_data))
 
-cbar = fig.colorbar(plot, ax=ax1, label='WBGT Index (°C)', extend='both', shrink=0.7)
+    fig = plt.figure(figsize=(15, 8))
 
-ax1.set_title('(a) Spatial Distribution of WBGT Mean (1961-2023)', fontsize=14, fontweight='bold')
-ax1.set_xlabel('Longitude (°E)')
-ax1.set_ylabel('Latitude (°N)')
-ax1.set_aspect('equal')
-ax1.set_xlim(102, 109.5)
-ax1.set_ylim(8, 23.5)
+    # --- SUBPLOT 1: HEAT RISK MAP (White background for ocean) ---
+    ax1 = fig.add_subplot(1, 2, 1)
 
-# --- SUBPLOT 2: MULTI-YEAR FREQUENCY DISTRIBUTION (HISTOGRAM) ---
-ax2 = fig.add_subplot(1, 2, 2)
+    risk_map_data = risk_level.mean(dim='time')
 
-unique_years = np.unique(years)
-years_to_plot = [unique_years[0], unique_years[len(unique_years)//2], unique_years[-1]]
-colors = ['#1f77b4', '#2ca02c', '#d62728']
+    colors = ['#28a745', '#ffc107', '#fd7e14', '#dc3545']
+    cmap = mcolors.ListedColormap(colors)
+    cmap.set_bad(color='white')
 
-for year, color in zip(years_to_plot, colors):
-    year_idx = np.where(years == year)[0]
-    year_data = heat_data[year_idx, :, :].flatten()
-    clean_data = year_data[~np.isnan(year_data)]
+    bounds = [0.5, 1.5, 2.5, 3.5, 4.5]
+    norm = mcolors.BoundaryNorm(bounds, cmap.N)
 
-    if len(clean_data) > 0:
-        ax2.hist(clean_data, bins=40, alpha=0.4, label=f'Year {year}', color=color, density=True)
-        ax2.axvline(np.mean(clean_data), color=color, linestyle='--', linewidth=1.5)
+    risk_masked = np.ma.masked_invalid(risk_map_data.values)
+    plot = ax1.pcolormesh(lon, lat, risk_masked, cmap=cmap, norm=norm, shading='auto')
 
-ax2.set_title('(b) WBGT Frequency Distribution Comparison', fontsize=14, fontweight='bold')
-ax2.set_xlabel('Temperature (°C)')
-ax2.set_ylabel('Probability Density (PDF)')
-ax2.legend()
-ax2.grid(axis='y', alpha=0.3)
+    cbar = fig.colorbar(plot, ax=ax1, ticks=[1, 2, 3, 4], shrink=0.7)
+    cbar.ax.set_yticklabels(['Low (<18)', 'Moderate (18-21)', 'High (21-24)', 'Extreme (>24)'])
+    cbar.set_label('Heat Stress Classification (Tw)')
 
-plt.tight_layout()
-plt.show()
+    ax1.set_title('(a) Spatial Distribution of Tw Risk Levels', fontsize=14)
+    ax1.set_xlabel('Longitude (°E)')
+    ax1.set_ylabel('Latitude (°N)')
+    ax1.set_aspect('equal')
+    ax1.set_xlim(102, 109.5)
+    ax1.set_ylim(8, 23.5)
 
-print(f"Overall Minimum WBGT: {np.nanmin(heat_mean):.2f}°C")
-print(f"Overall Maximum WBGT: {np.nanmax(heat_mean):.2f}°C")
+    # --- SUBPLOT 2: Tw FREQUENCY DISTRIBUTION (HISTOGRAM) ---
+    ax2 = fig.add_subplot(1, 2, 2)
 
-fh.close()
+    unique_years = np.unique(years)
+    years_to_show = [unique_years[0], unique_years[len(unique_years)//2], unique_years[-1]]
+    plot_colors = ['#1f77b4', '#2ca02c', '#d62728']
+
+    for year, color in zip(years_to_show, plot_colors):
+        # Extract Tw data directly for the specific year
+        data_year = ds['Tw'].sel(time=str(year)).values.flatten()
+        data_clean = data_year[~np.isnan(data_year)]
+
+        if len(data_clean) > 0:
+            ax2.hist(data_clean, bins=50, alpha=0.4, label=f'Year {year}', color=color, density=True)
+            ax2.axvline(np.mean(data_clean), color=color, linestyle='--', linewidth=1.5)
+
+    ax2.axvline(18, color='gray', linestyle=':', label='Threshold (18°C)')
+    ax2.axvline(24, color='darkred', linestyle='-', label='Extreme Threshold (24°C)')
+
+    ax2.set_title('(b) Tw Frequency Distribution over Selected Years', fontsize=14)
+    ax2.set_xlabel('Tw Temperature (°C)')
+    ax2.set_ylabel('Probability Density (PDF)')
+    ax2.legend()
+    ax2.grid(axis='y', alpha=0.3)
+
+    plt.tight_layout()
+    plt.show()
+    ds.close()
