@@ -58,7 +58,7 @@ wbgt_data = ds['WBGT']
 - **Note:**
     - If you want to plot the precipitation indices, you need to add the following command.
 ```
-tnn_mean = np.nanmean(tnn_data, axis=0)
+r95p_mean = np.nanmean(r95p_data, axis=0)
 r95p_mean = np.ma.masked_where(r95p_mean <= 1, r95p_mean) #Add this line exactly here
 fig = plt.figure(figsize=(16, 10))
 ```
