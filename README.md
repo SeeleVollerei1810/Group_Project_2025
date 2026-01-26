@@ -62,6 +62,15 @@ r95p_mean = np.nanmean(r95p_data, axis=0)
 r95p_mean = np.ma.masked_where(r95p_mean <= 1, r95p_mean) #Add this line exactly here
 fig = plt.figure(figsize=(16, 10))
 ```
+
+## Future Roadmap & Upcoming Features
+The UREX Toolbox is under active development. While the current version focuses on ETCCDI and Heat Stress metrics, the team is working on the following modules for the next major release (v2.0):
+* **Urban Heat Island (UHI) Assessment:**
+    * **Goal:** Quantify the UHI intensity ($\Delta T_{u-r}$) by comparing temperature differentials between urban core and rural reference zones.
+    * **Methodology:** Integration of Land Use/Land Cover (LULC) data to automatically classify urban/rural pixels and compute spatial temperature anomalies.
+* **Dynamic Data Integration:**
+    * Moving beyond constant baselines to ingest dynamic Relative Humidity and Solar Radiation data for more precise WBGT calculations.
+
 ## Key Features
 The toolbox focuses on the following primary objectives:
 - **Climate Extreme Indicators (ETCCDI):** Computing indices such as `TXx`, `TNn`, `R95p`, and `PRCPTOT` to assess long-term temperature and rainfall trends.
