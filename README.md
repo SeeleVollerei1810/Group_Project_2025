@@ -123,7 +123,7 @@ The toolbox computes a comprehensive set of **24 ETCCDI climate indices** and **
 ### 3. Heat-Stress Metrics (2 Indices)
 | Index | Unit | Description | Threshold / Logic |
 | :--- | :--- | :--- | :--- |
-| **`Tw`** | **°C** | Wet-bulb Temperature | f(Temp, Humidity, Pressure) |
+| **`Tw`** | **°C** | Wet-Bulb Temperature | f(Temp, Humidity, Pressure) |
 | **`WBGT`** | **°C** | Wet-Bulb Globe Temperature | ISO Heat Stress Standard |
 
 ## Author
