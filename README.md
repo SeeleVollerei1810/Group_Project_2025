@@ -33,6 +33,7 @@ def get_drive_data_path() -> str:
     - Open `main.py`, find the `main()` function and update the following coordinates:
 ```
 def main():
+    # CHANGE THIS to YOUR actual desired data folder path
     OUTPUT_DIR = '/content/drive/MyDrive/Group Project 2025/results'
     # Define YOUR study area boundaries
     LAT_RANGE = (8.0, 24.0)
