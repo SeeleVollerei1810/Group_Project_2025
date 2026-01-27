@@ -18,7 +18,7 @@ If you want to calculate Climate Indices or Heat Stress Metrics, navigate to the
 - %cd '/content/Group_Project_2025/Climate Extreme Indicators'
 - %cd '/content/Group_Project_2025/Heat-Stress Metrics'
 ### 2. Configuration
-Make sure you run the code in the **Execution Order:** `input.py` &rarr; `main.py` &rarr; `example_results.py`
+Make sure you run the code in the **Execution Order:** `input.py` &rarr; `main.py` &rarr; `example results.py`
 
 Before running, you must update the file paths and study area parameters to match your dataset.
 - **Step 1: Set Data Path**
@@ -43,7 +43,7 @@ def main():
     NAN_METHOD: Literal['keep'] = 'keep'
 ```
 ### 3. Visualization
-Use the provided `example_results.py` script to generate spatial maps and frequency distributions for any calculated index.
+Use the provided `example results.py` script to generate spatial maps and frequency distributions for any calculated index.
 - **Step 1: Update Input File**
     - Open `example results.py` and modify the `file_path` to point to your result NetCDF file (e.g., `calculated_indices.nc` or `calculated_heatstress.nc`).
 ```
