@@ -1,5 +1,7 @@
 import argparse
-import xarray as xr
+from preprocess import combine_preprocess
+from utilities import save_indices_to_netcdf
+from indices import calculate_indices
 from typing import Literal
 
 def main():
