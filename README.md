@@ -12,7 +12,7 @@ First, clone the repository to your local machine or Google Colab environment:
 - !git clone https://github.com/SeeleVollerei1810/Group_Project_2025.git
 
 Ensure you have the required libraries installed:
-- pip install numpy pandas xarray netCDF4 matplotlib
+- !pip install numpy pandas xarray netCDF4 matplotlib
 
 If you want to calculate Climate Indices or Heat Stress Metrics, navigate to the corresponding directory:
 - %cd '/content/Group_Project_2025/Climate Extreme Indicators'
