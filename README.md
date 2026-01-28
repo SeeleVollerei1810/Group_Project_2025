@@ -38,7 +38,7 @@ def main():
     # CHANGE THIS to YOUR actual desired data folder path
     OUTPUT_DIR = '/content/drive/MyDrive/Group Project 2025/results'
     # Define YOUR study area boundaries
-    LAT_RANGE = (8.0, 24.0)
+    LAT_RANGE = (8.0, 24.0) # currently Vietnam
     LON_RANGE = (102.0, 110.0)
     NAN_METHOD: Literal['keep'] = 'keep'
 ```
